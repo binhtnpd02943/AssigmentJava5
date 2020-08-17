@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/admin.html}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{contact.title}"></title>
+</head>
+<body>
+
+<div layout:fragment="header">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 th:text="#{contact.title.h1}"></h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" th:text="#{link.home}"></a></li>
+                        <li class="breadcrumb-item active" th:text="#{contact.title.h1}"></li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+</div>
+    <div layout:fragment="content">
+        <div class="col-md-5">
+            <div class="card card-success">
+                <div class="card-header">
+                    <h3 class="card-title" th:text="#{contact.title.cardMail}"></h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form role="form" th:action="@{/contacts/sendMail}" method="post">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label th:text="#{contact.input.from}"></label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-at"></i></span>
+                                </div>
+                                <input type="text" name="from" class="form-control" th:placeholder="#{contact.input.placeFrom}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label th:text="#{contact.input.to}"></label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-at"></i></span>
+                                </div>
+                                <input type="text" name="to" class="form-control" th:placeholder="#{contact.input.placeTo}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label th:text="#{contact.input.subject}"></label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-envelope-open"></i></span>
+                                </div>
+                                <input type="text" name="subject" class="form-control" th:placeholder="#{contact.input.placeSubject}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label th:text="#{contact.input.body}"></label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-sticky-note"></i></span>
+                                </div>
+                                <textarea class="form-control" name="body" cols="30" rows="6" th:placeholder="#{contact.input.placebody}"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <input type="submit" th:value="#{contact.btn.send}" class="btn btn-primary float-right">
+                        <a th:href="@{/users/}" class="btn btn-outline-secondary" th:text="#{btn.cancel}"></a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="card card-default">
+                <div class="card-header">
+                    <h3 class="card-title" th:text="#{contact.title.cardMap}"></h3>
+                </div>
+                <div class="card-body p-0">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3833.8025459042847!2d108.16776031501215!3d16.075732988876954!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x314218e6e07b1c3f%3A0x459e4bf5a2af323e!2zVHLGsOG7nW5nIGNhbyDEkeG6s25nIHRo4buxYyBow6BuaCBGUFQgUE9MWVRFQ0hOSUMgxJDDoCBO4bq1bmc!5e0!3m2!1svi!2s!4v1583085873738!5m2!1svi!2s" width="100%" height="550px" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

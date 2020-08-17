@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/admin.html}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{record.title}"></title>
+</head>
+<body>
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/select2.min.css}">
+    <link rel="stylesheet" th:href="@{/css/select2-bootstrap4.min.css}">
+</th:block>
+<div layout:fragment="header">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 th:text="#{record.title.h1}"></h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" th:text="#{link.home}"></a></li>
+                        <li class="breadcrumb-item active" th:text="#{record.title.h1}"></li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+</div>
+    <div layout:fragment="content">
+        <div class="col-12">
+            <div class="card card-success">
+                <div class="card-header">
+                    <h3 class="card-title" th:text="#{record.title.cardAdd}"></h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form role="form" th:action="@{/records/save}" th:object="${record}" method="post">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label th:text="#{record.input.staff}"></label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                        </div>
+                                        <select th:field="*{staff.id}" class="custom-select" id="select2">
+                                            <option value="0" th:text="#{record.input.placeDepart}"></option>
+                                            <option th:each="staff: ${staffs}"
+                                                    th:value="${staff.id}"
+                                                    th:text="#{record.input.staffid} + ${staff.id} + ' - ' + #{record.input.staffname} + ${staff.name} + ' - ' + #{record.input.depart} + ${staff.depart.name}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label th:text="#{record.input.type}"></label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-venus-mars"></i></span>
+                                        </div>
+                                        <select class="custom-select select2bs4" th:field="*{type}">
+                                            <option value="" selected th:text="#{record.input.placeType}"></option>
+                                            <option th:value="true" th:text="#{record.thead.achievement}"></option>
+                                            <option th:value="false" th:text="#{record.thead.discipline}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label th:text="#{record.input.reason}"></label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-sticky-note"></i></span>
+                                        </div>
+                                        <textarea th:field="*{reason}" class="form-control" cols="60" rows="5" th:placeholder="#{record.input.placeReason}"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <input type="submit" th:value="#{btn.addnew}" class="btn btn-primary float-right">
+                        <a th:href="@{/records/}" class="btn btn-outline-secondary" th:text="#{btn.cancel}"></a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <br>
+        <div class="col-12">
+            <div class="card card-red">
+                <div class="card-header">
+                    <h3 class="card-title" th:text="#{record.title.cardListStaffs}"></h3>
+                    <div class="card-tools">
+                        <div>
+                            <form th:action="@{/departs/find}" method="post" class="input-group input-group-sm" style="width: 200px;">
+                                <input type="text" name="name" class="form-control float-right" th:placeholder="#{btn.placeSearch}">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th style="width: 10px" th:text="#{record.thead.Id}"></th>
+                            <th th:text="#{record.thead.staffName}"></th>
+                            <th th:text="#{record.thead.depart}"></th>
+                            <th th:text="#{record.thead.achievement}"></th>
+                            <th th:text="#{record.thead.discipline}"></th>
+                            <th th:text="#{record.thead.total}"></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="staff: ${resultStaffs}">
+                            <td th:text="${staff[0]}"></td>
+                            <td th:text="${staff[1]}"></td>
+                            <td th:text="${staff[2]}"></td>
+                            <td th:text="${staff[3]}"></td>
+                            <td th:text="${staff[4]}"></td>
+                            <td th:text="${staff[3] - staff[4]}"></td>
+                            <td class="text-right py-0 align-middle">
+                                <div class="btn-group btn-group-sm">
+                                    <a th:href="@{'/staffs/profile/' + ${staff[0]}}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card card-red">
+                <div class="card-header">
+                    <h3 class="card-title" th:text="#{record.title.cardListDeparts}"></h3>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th th:text="#{record.thead.depart}"></th>
+                            <th th:text="#{record.thead.achievement}"></th>
+                            <th th:text="#{record.thead.discipline}"></th>
+                            <th th:text="#{record.thead.total}"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="depart: ${resultDeparts}">
+                            <td th:text="${depart[0]}"></td>
+                            <td th:text="${depart[1]}"></td>
+                            <td th:text="${depart[2]}"></td>
+                            <td th:text="${depart[1] - depart[2]}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+<th:block layout:fragment="js">
+    <script th:src="@{/js/select2.min.js}"></script>
+    <script>
+        $(function () {
+            $('#select2').select2({
+                theme: 'bootstrap4'
+            })
+        })
+    </script>
+</th:block>
+</body>
+</html>

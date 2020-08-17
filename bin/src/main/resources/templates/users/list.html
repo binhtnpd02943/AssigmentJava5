@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/admin.html}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{user.title}"></title>
+</head>
+<body>
+
+<div layout:fragment="header">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 th:text="#{user.title.h1}"></h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" th:text="#{link.home}"></a></li>
+                        <li class="breadcrumb-item active" th:text="#{user.title.h1}"></li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+</div>
+    <div layout:fragment="content">
+        <div class="col-md-5">
+            <div class="card card-success">
+                <div class="card-header">
+                    <h3 class="card-title" th:text="#{user.title.cardAdd}"></h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form role="form" th:action="@{/users/saveOrUpdate}" th:object="${userDto}" method="post">
+                    <div class="card-body">
+                        <th:block th:if="${err}">
+                            <div class="alert alert-warning" role="alert">
+                                <span th:text="#{user.err}"></span>
+                            </div>
+                        </th:block>
+                        <div class="form-group">
+                            <label th:text="#{user.input.usename}"></label>
+                            <div class="input-group mb-0">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                </div>
+                                <input type="text" th:field="*{username}" class="form-control" th:classappend="${#fields.hasErrors('username')}?'is-invalid'" th:placeholder="#{user.input.placeUsername}">
+                            </div>
+                            <span class="text-danger text-sm font-italic" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label th:text="#{user.input.fullname}"></label>
+                            <div class="input-group mb-0">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-address-card"></i></span>
+                                </div>
+                                <input type="text" th:field="*{fullname}" class="form-control" th:classappend="${#fields.hasErrors('fullname')}?'is-invalid'" th:placeholder="#{user.input.placeFulname}">
+                            </div>
+                            <span class="text-danger text-sm font-italic" th:if="${#fields.hasErrors('fullname')}" th:errors="*{fullname}">
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label th:text="#{user.input.password}"></label>
+                            <div class="input-group mb-0">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                </div>
+                                <input type="password" th:field="*{password}" class="form-control" th:classappend="${#fields.hasErrors('password')}?'is-invalid'" th:placeholder="#{user.input.placePassword}">
+                            </div>
+                            <span class="text-danger text-sm font-italic" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label th:text="#{user.input.password}"></label>
+                            <div class="input-group mb-0">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                </div>
+                                <input type="password" th:field="*{rePassword}" class="form-control" th:classappend="${#fields.hasErrors('rePassword')}?'is-invalid'" th:placeholder="#{user.input.placePassword}">
+                            </div>
+                            <span class="text-danger text-sm font-italic" th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}">
+                            </span>
+                        </div>
+
+                    </div>
+                    <div class="card-footer">
+                        <input type="submit" th:value="${edit}?#{btn.update}:#{btn.addnew}" class="btn btn-primary float-right">
+                        <a th:href="@{/users/}" class="btn btn-outline-secondary" th:text="#{btn.cancel}"></a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="card card-red">
+                <div class="card-header">
+                    <h3 class="card-title" th:text="#{user.title.cardList}"></h3>
+                    <div class="card-tools">
+                        <form th:action="@{/users/find}" method="post" class="input-group input-group-sm mt-auto" style="width: 200px;">
+                            <div class="input-group input-group-sm">
+                                <input type="text" name="name" class="form-control float-right" placeholder="Search">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th th:text="#{user.thead.username}" ></th>
+                            <th th:text="#{user.thead.fullname}"></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="user: ${users}">
+                            <td th:text="${user.username}"></td>
+                            <td th:text="${user.fullname}"></td>
+                            <td class="text-right py-0 align-middle">
+                                <div class="btn-group btn-group-sm">
+                                    <a th:href="@{'/users/edit/' + ${user.username}}" class="btn btn-primary"><i class="fas fa-pencil-alt"></i></a>
+                                    <a th:href="@{'/users/delete/' + ${user.username}}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/admin.html}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{home.title}"></title>
+</head>
+<body>
+<div layout:fragment="header">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 th:text="#{home.title.h1}"></h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" th:text="#{link.home}"></a></li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+</div>
+<div layout:fragment="content">
+    <div class="col">
+        <div class="card card-red">
+            <div class="card-header">
+                <h3 class="card-title" th:text="#{home.card}"></h3>
+                <div class="card-tools">
+                    <div>
+                        <form th:action="@{/staffs/profile}" method="post" class="input-group input-group-sm mt-auto" style="width: 200px;">
+                            <div class="input-group input-group-sm">
+                                <input type="text" name="id" class="form-control float-right" th:placeholder="#{home.input.placeSearch}">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th th:text="#{home.thead.image}"></th>
+                        <th th:text="#{home.thead.fullname}"></th>
+                        <th th:text="#{home.thead.depart}"></th>
+                        <th th:text="#{home.thead.total}"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="staff, iter: ${topStaffs}">
+                        <td th:text="${iter.count}"></td>
+                        <td><img th:src="@{'/getimage/' + ${staff[0]}}" class="table-avatar img-size-50 img-circle" alt=""></td>
+                        <td th:text="${staff[0]} + ' - ' + ${staff[1]}"></td>
+                        <td th:text="${staff[2]}"></td>
+                        <td th:text="${staff[3]}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <th:block th:if="${attr_user == null}">
+        <div class="col-3">
+            <div class="card">
+                <div class="card-body">
+                    <p class="login-box-msg"><strong th:text="#{home.title.login}"></strong></p>
+
+                    <form th:action="@{/login}" method="post">
+                        <div class="input-group mb-3">
+                            <input type="text" name="username" class="form-control" th:placeholder="#{home.input.placeUsername}">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-id-card"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="password" name="password" class="form-control" th:placeholder="#{home.input.placePassword}">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-7">
+                                <div class="icheck-primary">
+                                    <input type="checkbox" id="remember" checked>
+                                    <span th:text="#{home.btn.rememberme}"></span>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-5">
+                                <button type="submit" class="btn btn-primary btn-block" th:text="#{home.btn.signin}"></button>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                    </form>
+
+                    <div class="social-auth-links text-center mb-3">
+                        <p th:text="#{home.or}"></p>
+                        <a href="#" class="btn btn-block btn-primary">
+                            <i class="fab fa-facebook-f"></i> <span th:text="#{home.btn.signwithfb}"></span>
+                        </a>
+                        <a href="#" class="btn btn-block btn-danger">
+                            <i class="fab fa-google"></i> <span th:text="#{home.btn.signwithfb}"></span>
+                        </a>
+                    </div>
+                    <!-- /.social-auth-links -->
+
+                    <p class="mb-1">
+                        <a href="#" th:text="#{home.btn.forgotpw}"></a>
+                    </p>
+                </div>
+                <!-- /.login-card-body -->
+            </div>
+
+        </div>
+
+    </th:block>
+
+</div>
+
+</body>
+</html>

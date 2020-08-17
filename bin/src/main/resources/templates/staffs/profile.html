@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/admin.html}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{profile.title}"></title>
+</head>
+<body>
+
+<div layout:fragment="header">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 th:text="#{profile.title.h1}"></h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" th:text="#{link.home}"></a></li>
+                        <li class="breadcrumb-item active" th:text="#{profile.title.h1}"></li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+</div>
+    <div layout:fragment="content">
+            <div class="col-md-3">
+
+                <!-- Profile Image -->
+                <div class="card card-primary card-outline">
+                    <div class="card-body box-profile">
+                        <div class="text-center">
+                            <img class="profile-user-img img-fluid img-circle" th:src="@{'/getimage/' + ${staff.id}}" alt="User profile picture">
+                        </div>
+
+                        <h3 class="profile-username text-center" th:text="${staff.name}"></h3>
+
+                        <p class="text-muted text-center" th:text="${staff.about}"></p>
+
+                        <ul class="list-group list-group-unbordered mb-3">
+                            <li class="list-group-item">
+                                <b th:text="#{profile.title.depart}"></b> <a class="float-right" th:text="${staff.depart.name}"></a>
+                            </li>
+                            <th:block th:each="countRd: ${countRecord}">
+                                <li class="list-group-item">
+                                    <b th:text="#{profile.title.totalAchi}"></b> <a class="float-right" th:text="${countRd[0]}"></a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b th:text="#{profile.title.totalDis}"></b> <a class="float-right" th:text="${countRd[1]}"></a>
+                                </li>
+                            </th:block>
+
+                        </ul>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+
+            </div>
+            <!-- /.col -->
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-header p-2">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item"><a class="nav-link active" href="#profile" data-toggle="tab" th:text="#{profile.title.tabProfile}"></a></li>
+                            <li class="nav-item"><a class="nav-link" href="#record" data-toggle="tab" th:text="#{profile.title.tabRecord}"></a></li>
+                        </ul>
+                    </div><!-- /.card-header -->
+                    <div class="card-body p-0">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="profile">
+                                <!-- Post -->
+                                <div class="row mx-md-4 my-md-4">
+                                    <div class="col">
+                                        <ul class="ml-4 mb-0 fa-ul">
+                                            <li>
+                                                <span class="fa-li"><i class="fas fa-lg fa-address-card text-muted"></i></span>
+                                                <span th:text="#{staff.input.fullname}"></span> <span th:text="${staff.name}"></span>
+                                            </li>
+                                            <br>
+                                            <li>
+                                                <span class="fa-li"><i class="fas fa-lg fa-venus-mars text-muted"></i></span>
+                                                <span th:text="#{staff.input.gender}"></span> <span th:text="${staff.gender}?#{staff.input.gender.male}:#{staff.input.gender.female}"></span>
+                                            </li>
+                                            <br>
+                                            <li>
+                                                <span class="fa-li"><i class="fas fa-lg fa-envelope text-muted"></i></span>
+                                                <span th:text="#{staff.input.email}"></span> <span th:text="${staff.email}"></span>
+                                            </li>
+                                            <br>
+                                            <li>
+                                                <span class="fa-li"><i class="fas fa-lg fa-phone-alt text-muted"></i></span>
+                                                <span th:text="#{staff.input.phone}"></span> <span th:text="${staff.phone}"></span>
+                                            </li>
+                                            <br>
+                                            <li>
+                                                <span class="fa-li"><i class="fas fa-lg fa-birthday-cake text-muted"></i></span>
+                                                <span th:text="#{staff.input.dob}"></span> <span th:text="${staff.birthday}"></span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col">
+                                        <ul class="ml-4 mb-0 fa-ul">
+                                            <li>
+                                                <span class="fa-li"><i class="fas fa-lg fa-suitcase text-muted"></i></span>
+                                                <span th:text="#{staff.input.department}"></span> <span th:text="${staff.depart.name}"></span>
+                                            </li>
+                                            <br>
+                                            <li>
+                                                <span class="fa-li"><i class="fas fa-lg fa-dollar-sign text-muted"></i></span>
+                                                <span th:text="#{staff.input.salary}"></span> <span th:text="${staff.salary}"></span>
+                                            </li>
+                                            <br>
+                                            <li>
+                                                <span class="fa-li"><i class="fas fa-lg fa-map-marker-alt text-muted"></i></span>
+                                                <span th:text="#{staff.input.address}"></span> <span th:text="${staff.address}"></span>
+                                            </li>
+                                            <br>
+                                            <li>
+                                                <span class="fa-li"><i class="fas fa-lg fa-info-circle text-muted"></i></span>
+                                                <span th:text="#{staff.input.about}"></span> <span th:text="${staff.about}"></span>
+                                            </li>
+                                            <br>
+                                            <li>
+                                                <span class="fa-li"><i class="fas fa-lg fa-sticky-note text-muted"></i></span>
+                                                <span th:text="#{staff.input.notes}"></span> <span th:text="${staff.notes}"></span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- /.post -->
+                            </div>
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane p-0" id="record">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th th:text="#{profile.thead.date}"></th>
+                                        <th th:text="#{profile.thead.type}"></th>
+                                        <th th:text="#{profile.thead.reason}"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="record: ${records}">
+                                        <td th:text="${record.date}"></td>
+                                        <td th:text="${record.type}?#{record.thead.achievement}:#{record.thead.discipline}"></td>
+                                        <td th:text="${record.reason}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <!-- /.tab-pane -->
+                        </div>
+                        <!-- /.tab-content -->
+                    </div><!-- /.card-body -->
+                </div>
+                <!-- /.nav-tabs-custom -->
+            </div>
+            <!-- /.col -->
+
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/admin.html}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{staff.title}"></title>
+
+</head>
+<body>
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/select2.min.css}">
+    <link rel="stylesheet" th:href="@{/css/select2-bootstrap4.min.css}">
+</th:block>
+<div layout:fragment="header">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 th:text="#{staff.title.h1}"></h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" th:text="#{link.home}"></a></li>
+                        <li class="breadcrumb-item active" th:text="#{staff.title.h1}"></li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+</div>
+<div layout:fragment="content">
+    <div class="col">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title" th:text="#{staff.title.cardAdd}"></h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form th:action="@{/staffs/saveOrUpdate}" th:object="${staffDto}" method="post" enctype="multipart/form-data">
+                <input type="hidden" th:field="*{id}">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                                <label th:text="#{staff.input.fullname}"></label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-address-card"></i></span>
+                                    </div>
+                                    <input type="text" th:field="*{name}" class="form-control" th:placeholder="#{staff.input.placeFullname}">
+                                </div>
+                        </div>
+                        <div class="col">
+                            <label th:text="#{staff.input.email}"></label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                </div>
+                                <input type="email" name="email" th:field="*{email}" class="form-control" th:placeholder="#{staff.input.placeEmail}">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label th:text="#{staff.input.phone}"></label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
+                                </div>
+                                <input type="tel" id="phone" th:field="*{phone}" class="form-control" th:placeholder="#{staff.input.placePhone}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label th:text="#{staff.input.gender}"></label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-venus-mars"></i></span>
+                                    </div>
+                                    <select class="custom-select" th:field="*{gender}">
+                                        <option value="" selected th:text="#{staff.input.placeGender}"></option>
+                                        <option th:value="true" th:text="#{staff.input.gender.male}"></option>
+                                        <option th:value="false" th:text="#{staff.input.gender.female}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label th:text="#{staff.input.dob}"></label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-birthday-cake"></i></span>
+                                    </div>
+                                    <input type="text" id="datemask" th:field="*{birthday}" class="form-control" data-inputmask-alias="datetime" th:placeholder="#{staff.input.placeDob}" data-inputmask-inputformat="dd/mm/yyyy"  im-insert="false">
+                                </div>
+                                <!-- /.input group -->
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label th:text="#{staff.input.salary}"></label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                </div>
+                                <input type="text" th:field="*{salary}" class="form-control" th:placeholder="#{staff.input.placeSalary}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label th:text="#{staff.input.department}"></label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-suitcase"></i></span>
+                                    </div>
+                                    <select th:field="*{departId}" class="custom-select" id="select2">
+                                        <option value="" th:text="#{staff.input.placeDepartment}"></option>
+                                        <option th:each="depart: ${departs}"
+                                                th:value="${depart.id}"
+                                                th:text="${depart.name}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label th:text="#{staff.input.photo}"></label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-file-image"></i></span>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" th:field="*{image}" id="photo" th:required="*{id == 0}">
+                                        <label class="custom-file-label" for="photo" th:if="*{imageName}" th:text="*{imageName}"></label>
+                                        <label class="custom-file-label" for="photo" th:unless="*{imageName}" th:text="#{staff.input.placePhoto}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label th:text="#{staff.input.address}"></label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                </div>
+                                <input type="text" th:field="*{address}" class="form-control" th:placeholder="#{staff.input.placeAddress}">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label th:text="#{staff.input.about}"></label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-info-circle"></i></span>
+                                </div>
+                                <input type="text" th:field="*{about}" class="form-control" th:placeholder="#{staff.input.placeAbout}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label th:text="#{staff.input.notes}"></label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-sticky-note"></i></span>
+                                    </div>
+                                    <textarea th:field="*{notes}" class="form-control" cols="60" rows="5" th:placeholder="#{staff.input.placeNotes}"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <input type="submit" class="btn btn-primary float-right" th:value="*{id == 0}?#{btn.addnew}:#{btn.update}">
+                    <a th:href="@{/staffs/}" class="btn btn-outline-secondary" th:text="#{btn.cancel}"></a>
+                </div>
+            </form>
+        </div>
+        <br>
+        <div class="card card-cyan">
+            <div class="card-header">
+                <h3 class="card-title" th:text="#{staff.title.cardList}"></h3>
+            </div>
+            <div class="card-body pb-0">
+                <div class="row d-flex align-items-stretch" >
+                    <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch" th:each="staff: ${staffs}">
+                        <div class="card bg-light">
+                            <div class="card-header text-muted border-bottom-0" th:text="${staff.depart.name}">
+                            </div>
+                            <div class="card-body pt-0">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <h2 class="lead"><b th:text="${staff.name}"></b></h2>
+                                        <p class="text-muted text-sm"><b><span th:text="#{staff.input.about}"></span> </b> <span th:text="${staff.about}"></span> </p>
+                                        <ul class="ml-4 mb-0 fa-ul text-muted">
+                                            <li class="small"><span class="fa-li"><i class="fas fa-lg fa-map-marker-alt"></i></span> <span th:text="#{staff.input.address}"></span> <span th:text="${staff.address}"></span></li>
+                                            <br>
+                                            <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone-alt"></i></span> <span th:text="#{staff.input.phone}"></span> <span th:text="${staff.phone}"></span></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-5 text-center">
+                                        <img th:src="@{'/getimage/' + ${staff.id}}" alt="" class="img-circle img-fluid">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="text-right">
+                                    <a th:href="@{'/staffs/delete/' + ${staff.id}}" class="btn btn-sm bg-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                    <a th:href="@{'/staffs/edit/'+${staff.id}}" class="btn btn-sm bg-teal">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                    <a th:href="@{'/staffs/profile/' + ${staff.id}}" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-user"></i> <span th:text="#{btn.view}"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                        <nav aria-label="Contacts Page Navigation" th:if="${staffs.totalPages}">
+                        <ul class="pagination justify-content-center m-0">
+                            <li th:class="${staffs.number == 0}?'disabled page-item':'page-item'">
+                                <a class="page-link"
+                                    th:href="@{/staffs/(page=1)}">&laquo;</a>
+                            </li>
+                            <li th:class="${staffs.number == 0} ?'disabled page-item':'page-item'"><a
+                                    class="page-link"
+                                    th:href="@{/staffs/(page=${staffs.number})}">&larr;</a>
+                            </li>
+                            <li
+                                    th:class="${staffs.number == (page - 1)}?'active page-item':'page-item'"
+                                    th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
+                                <a class="page-link"
+                                   th:href="@{/staffs/(page=${page})}"
+                                   th:text="${page}"></a>
+                            </li>
+                            <li
+                                    th:class="${staffs.number + 1 == staffs.totalPages} ?'disabled page-item':'page-item'">
+                                <a class="page-link"
+                                   th:href="@{/staffs/(page=${staffs.number + 2})}">&rarr;</a>
+                            </li>
+                            <li
+                                    th:class="${staffs.number+ 1 == staffs.totalPages}?'disabled page-item':'page-item'">
+                                <a class="page-link"
+                                   th:href="@{/staffs/(page=${staffs.totalPages})}">&raquo;</a>
+                            </li>
+                        </ul>
+                        </nav>
+            </div>
+            <!-- /.card-footer -->
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="js">
+    <script th:src="@{/js/select2.min.js}"></script>
+    <script th:src="@{/js/jquery.inputmask.bundle.min.js}"></script>
+    <script th:src="@{/js/bs-custom-file-input.min.js}"></script>
+    <script>
+        $(function () {
+            $('#select2').select2({
+                theme: 'bootstrap4'
+            })
+
+            $('#datemask').inputmask('dd/mm/yyyy');
+            $("#phone").inputmask({"mask": "(99)(99)999-9999"});
+        })
+        $(document).ready(function () {
+            bsCustomFileInput.init();
+        });
+    </script>
+</th:block>
+</body>
+</html>

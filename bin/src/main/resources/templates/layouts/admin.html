@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8">
+    <title>Title</title>
+<!--    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/solid.css" integrity="sha384-osqezT+30O6N/vsMqwW8Ch6wKlMofqueuia2H7fePy42uC05rm1G+BUPSd2iBSJL" crossorigin="anonymous">-->
+<!--    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/fontawesome.css" integrity="sha384-BzCy2fixOYd0HObpx3GMefNqdbA7Qjcc91RgYeDjrHTIEXqiF00jKvgQG0+zY/7I" crossorigin="anonymous">-->
+    <link rel="stylesheet" th:href="@{/css/adminlte.min.css}">
+    <link rel="stylesheet" th:href="@{/css/all.css}">
+    <th:block layout:fragment="css"></th:block>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#" th:text="#{header.staffmanager}"></a>
+            </li>
+        </ul>
+
+        <!-- Right navbar links -->
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/?language=en}">English</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/?language=vi}">VietNamese</a>
+            </li>
+        </ul>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <!-- Brand Logo -->
+        <a href="#" class="brand-link">
+            <img th:src="@{/images/logo.png}" class="brand-image img-circle"
+                 style="opacity: .8">
+            <span class="brand-text font-weight-light">FPT University</span>
+        </a>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Sidebar user panel (optional) -->
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div class="image">
+                    <img th:src="@{/images/admin.png}" class="img-circle elevation-2" alt="User Image">
+                </div>
+                <div class="info">
+                    <a th:href="@{/}">
+                        <span th:text="${attr_user} ? ${attr_user.username} : #{nav.title.login}"></span>
+                    </a>
+                    <a th:href="@{/logout}" th:if="${attr_user != null}">
+                        <span>&nbsp; - &nbsp;</span>
+                        <i class="fas fa-power-off fa-xs"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Sidebar Menu -->
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-item">
+                        <a th:href="@{/}" th:class="'nav-link ' + ${indexActive}">
+                            <i class="nav-icon fas fa-home"></i>
+                            <p th:text="#{nav.home}"></p>
+                        </a>
+                    </li>
+                    <br>
+                    <li class="nav-item">
+                        <a th:href="@{/users/}" th:class="'nav-link ' + ${userActive}">
+                            <i class="nav-icon fa fa-id-badge"></i>
+                            <p th:text="#{nav.user}"></p>
+                        </a>
+                    </li>
+                    <br>
+                    <li class="nav-item">
+                        <a th:href="@{/departs/}" th:class="'nav-link ' + ${departActive}">
+                            <i class="nav-icon fa fa-suitcase"></i>
+                            <p th:text="#{nav.depart}"></p>
+                        </a>
+                    </li>
+                    <br>
+                    <li class="nav-item">
+                        <a th:href="@{/staffs/}" th:class="'nav-link ' + ${staffActive}">
+                            <i class="nav-icon fa fa-user"></i>
+                            <p th:text="#{nav.staff}"></p>
+                        </a>
+                    </li>
+                    <br>
+                    <li class="nav-item">
+                        <a th:href="@{/records/}" th:class="'nav-link ' + ${recordActive}">
+                            <i class="nav-icon fa fa-life-ring"></i>
+                            <p th:text="#{nav.record}"></p>
+                        </a>
+                    </li>
+                    <br>
+                    <li class="nav-item">
+                        <a th:href="@{/contacts/}" class="nav-link" th:classappend="${contactActive}?active">
+                            <i class="nav-icon fa fa-id-card"></i>
+                            <p th:text="#{nav.contact}"></p>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+        </div>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <div layout:fragment="header"></div>
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+                <div class="row" layout:fragment="content">
+                </div>
+                <!-- /.row -->
+                <!-- Main row -->
+                <!-- /.row (main row) -->
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer float-right">
+        <strong>Copyright &copy; Nam Truong.</strong>
+        All rights reserved.
+    </footer>
+
+</div>
+<!-- ./wrapper -->
+<!-- Bootstrap 4 -->
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.js}"></script>
+<th:block layout:fragment="js"></th:block>
+</body>
+</html>
